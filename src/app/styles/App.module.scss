@@ -1,0 +1,25 @@
+/* dashboard container */
+.dashboardContainer {
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+/* main content area */
+.mainContent {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* responsive design */
+@media (max-width: 768px) {
+  .mainContent {
+    padding: 1.5rem 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainContent {
+    padding: 1rem 0.5rem;
+  }
+}

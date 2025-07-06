@@ -1,103 +1,211 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useState, useRef } from "react";
+import styles from "./styles/App.module.scss";
+import TaskForm from "./components/TaskForm";
+import TaskList from "./components/TaskList";
+import TaskFilter from "./components/TaskFilter";
+import Navbar from "./components/Navbar";
+import {
+  getStoredTasks,
+  saveTasks,
+  loadSampleData,
+  hasSampleData,
+} from "./utils/localStorage";
 
-export default function Home() {
+// dashboard page - main app page with task management
+export default function DashboardPage() {
+  const [tasks, setTasks] = useState([]);
+  const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [editTask, setEditTask] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(null);
+  const formRef = useRef();
+
+  // task form state
+  const [form, setForm] = useState({
+    title: "",
+    description: "",
+    priority: "Medium",
+    dueDate: "",
+    tags: "",
+  });
+
+  // load tasks from localStorage on component mount
+  useEffect(() => {
+    setTasks(getStoredTasks());
+  }, []);
+
+  // load sample data if no tasks exist
+  const handleLoadSampleData = () => {
+    const sampleData = loadSampleData();
+    setTasks(sampleData);
+  };
+
+  // save tasks to localStorage whenever tasks change
+  useEffect(() => {
+    saveTasks(tasks);
+  }, [tasks]);
+
+  // filter tasks based on current filter and search criteria
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === "completed" && !task.completed) return false;
+    if (filter === "pending" && task.completed) return false;
+    if (search && !task.title.toLowerCase().includes(search.toLowerCase()))
+      return false;
+    return true;
+  });
+
+  // calculate task counts for different categories
+  const counts = {
+    all: tasks.length,
+    completed: tasks.filter((t) => t.completed).length,
+    pending: tasks.filter((t) => !t.completed).length,
+  };
+
+  // handle task form submission (create or update task)
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (!form.title.trim()) return;
+
+    // parse and clean tags from comma-separated string
+    const updatedTags = form.tags
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+
+    if (editTask) {
+      // update existing task
+      setTasks((prev) =>
+        prev.map((t) =>
+          t.id === editTask.id
+            ? {
+                ...t,
+                ...form,
+                tags: updatedTags,
+                updatedAt: new Date().toISOString(),
+              }
+            : t
+        )
+      );
+      setEditTask(null);
+    } else {
+      // create new task
+      setTasks((prev) => [
+        {
+          id: Date.now(),
+          title: form.title,
+          description: form.description,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          completed: false,
+          priority: form.priority,
+          dueDate: form.dueDate,
+          tags: updatedTags,
+        },
+        ...prev,
+      ]);
+    }
+
+    // reset form and close modal
+    setForm({
+      title: "",
+      description: "",
+      priority: "Medium",
+      dueDate: "",
+      tags: "",
+    });
+    setShowModal(false);
+  };
+
+  // handle task editing - populate form with task data
+  const handleEdit = (task) => {
+    setEditTask(task);
+    setForm({
+      title: task.title,
+      description: task.description,
+      priority: task.priority,
+      dueDate: task.dueDate || "",
+      tags: (task.tags || []).join(", "),
+    });
+    setShowModal(true);
+  };
+
+  // handle task deletion
+  const handleDelete = (id) => {
+    setTasks((prev) => prev.filter((t) => t.id !== id));
+    setConfirmDelete(null);
+  };
+
+  // toggle task completion status
+  const handleToggle = (id) => {
+    setTasks((prev) =>
+      prev.map((t) =>
+        t.id === id
+          ? {
+              ...t,
+              completed: !t.completed,
+              updatedAt: new Date().toISOString(),
+            }
+          : t
+      )
+    );
+  };
+
+  // close modal and reset form state
+  const closeModal = () => {
+    setShowModal(false);
+    setEditTask(null);
+    setForm({
+      title: "",
+      description: "",
+      priority: "Medium",
+      dueDate: "",
+      tags: "",
+    });
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className={styles.dashboardContainer}>
+      {/* Navigation Bar */}
+      <Navbar />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+      {/* Main Content */}
+      <main className={styles.mainContent}>
+        <TaskFilter
+          filter={filter}
+          setFilter={setFilter}
+          search={search}
+          setSearch={setSearch}
+          counts={counts}
+          onAddClick={() => {
+            setShowModal(true);
+            setEditTask(null);
+          }}
+        />
+
+        <TaskList
+          tasks={filteredTasks}
+          onToggle={handleToggle}
+          onEdit={handleEdit}
+          onDeleteConfirm={handleDelete}
+          confirmDeleteId={confirmDelete}
+          setConfirmDelete={setConfirmDelete}
+          onLoadSampleData={handleLoadSampleData}
+        />
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+      {/* Task Form Modal */}
+      {showModal && (
+        <TaskForm
+          form={form}
+          setForm={setForm}
+          onSubmit={handleFormSubmit}
+          onClose={closeModal}
+          isEditing={!!editTask}
+          formRef={formRef}
+        />
+      )}
     </div>
   );
 }

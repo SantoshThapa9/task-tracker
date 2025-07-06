@@ -1,0 +1,110 @@
+.navbar {
+  background: var(--bg);
+  color: var(--text);
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.navbarContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.navbarBrand {
+  .appTitle {
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin: 0;
+  }
+}
+
+.navbarDesktop {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+
+  .userInfo {
+    .welcomeText {
+      font-size: 1rem;
+      color: var(--text);
+    }
+  }
+
+  .navbarActions {
+    display: flex;
+    gap: 1rem;
+
+    .iconBtn {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--text);
+
+      &:hover {
+        color: var(--accent);
+      }
+    }
+  }
+}
+
+.mobileMenuToggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--accent2);
+  cursor: pointer;
+}
+
+.mobileMenu {
+  display: none;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+
+  .mobileUserInfo {
+    .welcomeText {
+      font-size: 1rem;
+      color: var(--text);
+    }
+  }
+
+  .mobileActions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .mobileIconBtn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      color: var(--text);
+      cursor: pointer;
+
+      &:hover {
+        color: var(--accent);
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .navbarDesktop {
+    display: none;
+  }
+
+  .mobileMenuToggle {
+    display: block;
+  }
+
+  .mobileMenu {
+    display: flex;
+  }
+}

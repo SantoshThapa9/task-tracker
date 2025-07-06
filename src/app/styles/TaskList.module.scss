@@ -1,0 +1,29 @@
+.empty {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text);
+
+  p {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .loadSampleBtn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
+
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg);
+}

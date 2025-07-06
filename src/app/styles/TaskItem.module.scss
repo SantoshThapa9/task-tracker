@@ -1,0 +1,112 @@
+.taskItem {
+  border-radius: 6px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+  border-left: 6px solid var(--accent);
+  background: var(--bg);
+  color: var(--text);
+
+  &.completed {
+    opacity: 0.7;
+    border-left-color: var(--accent2);
+  }
+
+  &.pending {
+    border-left-color: var(--accent2);
+  }
+
+  .taskMain {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .taskInfo {
+    flex: 1;
+  }
+
+  .taskTitleRow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .taskTitle {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--text);
+  }
+
+  .taskTags {
+    display: flex;
+    gap: 0.3rem;
+  }
+
+  .tag {
+    border-radius: 3px;
+    padding: 0 0.5em;
+    font-size: 0.85em;
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .taskDesc {
+    margin: 0.3em 0 0.2em 0;
+    color: var(--text);
+  }
+
+  .taskMeta {
+    font-size: 0.85em;
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+    color: var(--text);
+  }
+
+  .priority {
+    font-weight: bold;
+
+    &.priority-low {
+      color: var(--accent);
+    }
+    &.priority-medium {
+      color: var(--accent2);
+    }
+    &.priority-high {
+      color: var(--accent);
+    }
+  }
+
+  .taskActions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    button {
+      border: none;
+      background: none;
+      margin: 0 0.5rem;
+      font-size: 15px;
+      color: var(--accent2);
+    }
+  }
+  .confirmModal {
+    margin: 0 auto;
+    .modalActions {
+      display: flex;
+      gap: 10px;
+      margin-top: 1rem;
+      justify-content: space-between;
+      button {
+        border: 1px solid var(--accent2);
+        padding: 5px;
+        background: none;
+        color: var(--accent2);
+        border-radius: 5px;
+      }
+    }
+  }
+}

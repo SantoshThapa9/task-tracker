@@ -1,0 +1,78 @@
+.taskControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg);
+  color: var(--text);
+  border-bottom: 1px solid #eee;
+}
+
+.addBtn {
+  border: 1px solid var(--accent);
+  background: var(--bg);
+  color: var(--text);
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--bg);
+  color: var(--text);
+  &:focus {
+    border-color: var(--accent);
+    outline: none;
+    background: #fff;
+  }
+}
+
+.filterTabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  button {
+    background: transparent;
+    border: 1px solid #ccc;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--text);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    &:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+  }
+
+  .active {
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .count {
+    background: var(--accent2);
+    color: #fff;
+    border-radius: 999px;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.8rem;
+  }
+}
