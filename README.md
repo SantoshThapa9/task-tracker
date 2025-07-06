@@ -1,12 +1,10 @@
-
-##  Description
+## Description
 
 This is a simple task tracker I made using Next.js and React. You can add tasks, edit them, mark them done, and delete them.
 
 All features work, clean code, responsive UI, good UX, proper React usage
 
-
-##  Features
+## Features
 
 - **User Authentication**: Simple username-based login system
 
@@ -17,7 +15,6 @@ All features work, clean code, responsive UI, good UX, proper React usage
 - **Smart Filtering**: Filter tasks by status (All, Completed, Pending) with real-time counts
 
 - **Search Functionality**: Search tasks by title or tags
-
 
 - **Task Completion**: Mark tasks as complete/incomplete with toggle functionality
 
@@ -66,9 +63,9 @@ All features work, clean code, responsive UI, good UX, proper React usage
 
 ## 🔗 Live Demo
 
-[Add your deployed application link here]
+https://task-tracker-six-pied.vercel.app/
 
 ## 🖼 Screenshots
 
-[Add 1-2 screenshots of your app here]
-"# task-tracker" 
+![Screenshot 1](https://task-tracker-six-pied.vercel.app/screenshot1.png)  
+![Screenshot 2](https://task-tracker-six-pied.vercel.app/screenshot2.png)
