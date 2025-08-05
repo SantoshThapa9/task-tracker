@@ -33,7 +33,7 @@ All features work, clean code, responsive UI, good UX, proper React usage
 1. **Clone the repository**
 
    ```bash
-   git clone [your-repository-url]
+   git clone https://github.com/SantoshThapa9/task-tracker
    cd task-tracker
    ```
 
@@ -65,7 +65,3 @@ All features work, clean code, responsive UI, good UX, proper React usage
 
 https://task-tracker-six-pied.vercel.app/
 
-## 🖼 Screenshots
-
-![Screenshot 1](https://task-tracker-six-pied.vercel.app/screenshot1.png)  
-![Screenshot 2](https://task-tracker-six-pied.vercel.app/screenshot2.png)
